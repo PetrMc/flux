@@ -59,4 +59,12 @@ items:
             - route:
                 host: "bookinfo/productpage.bookinfo.svc.cluster.local"
                 port: 9080
+      - name: details
+        port: 9080
+        hostname: details.cx.tetrate.info
+        routing:
+          rules:
+          - route:
+              host: bookinfo/details.bookinfo.svc.cluster.local
+              port: 9080                   
 ---
