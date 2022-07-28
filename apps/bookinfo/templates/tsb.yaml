@@ -67,4 +67,5 @@ items:
           - route:
               host: "bookinfo/details.bookinfo.svc.cluster.local"
               port: 9080                   
+              
 ---
