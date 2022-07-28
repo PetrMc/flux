@@ -81,7 +81,6 @@ items:
       namespace: bookinfo-tier1
       labels:
         app: tsb-gateway-bookinfo-tier1
-        istio: ingressgateway
     externalServers:
     - name: bookinfo
       hostname: webinar0725-bookinfo.cx.tetrate.info
