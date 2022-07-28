@@ -71,6 +71,7 @@ items:
   kind: Tier1Gateway
   metadata:
     name: bookinfo-tier1
+    annotations:
       tsb.tetrate.io/organization: demo-webinar0725-org
       tsb.tetrate.io/tenant: demo-webinar0725-tenant  
       tsb.tetrate.io/workspace: bookinfo
