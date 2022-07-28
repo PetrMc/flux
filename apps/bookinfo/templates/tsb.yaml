@@ -22,6 +22,7 @@ items:
     namespaceSelector:
       names:
         - "*/bookinfo"
+        - "*/bookinfo-tier1"
 - apiVersion: gateway.tsb.tetrate.io/v2
   kind: Group
   metadata:
