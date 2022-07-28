@@ -1,0 +1,16 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: helloworld
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: ./apps/helloworld
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+  interval: 15s
+  install:
+    createNamespace: true
+  targetNamespace: helloworld

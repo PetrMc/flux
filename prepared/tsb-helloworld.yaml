@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: List
+items:
+# Create an ingress gateway deployment that will be the entry point to
+# the helloworld application
+- apiVersion: install.tetrate.io/v1alpha1
+  kind: IngressGateway
+  metadata:
+    namespace: helloworld
+    name: tsb-gateway-helloworld
+  spec: {}
+# Create the workspace and gateway group that capture the namespaces where
+# the helloworld application will run
+- apiVersion: tsb.tetrate.io/v2
+  kind: Workspace
+  metadata:
+    name: helloworld
+    annotations:
+      tsb.tetrate.io/organization: demo-webinar0725-org
+      tsb.tetrate.io/tenant: demo-webinar0725-tenant  
+  spec:
+    namespaceSelector:
+      names:
+        - "*/helloworld"
+        - "*/helloworld-tier1"
+- apiVersion: gateway.tsb.tetrate.io/v2
+  kind: Group
+  metadata:
+    name: helloworld-gg
+    annotations:
+      tsb.tetrate.io/organization: demo-webinar0725-org
+      tsb.tetrate.io/tenant: demo-webinar0725-tenant  
+      tsb.tetrate.io/workspace: helloworld
+  spec:
+    namespaceSelector:
+      names:
+        - "*/*"
+    configMode: BRIDGED
+# Expose the productpage service in the application ingress
+- apiVersion: gateway.tsb.tetrate.io/v2
+  kind: IngressGateway
+  metadata:
+    name: helloworld-gateway
+    annotations:
+      tsb.tetrate.io/organization: demo-webinar0725-org
+      tsb.tetrate.io/tenant: demo-webinar0725-tenant  
+      tsb.tetrate.io/workspace: helloworld
+      tsb.tetrate.io/gatewayGroup: helloworld-gg
+  spec:
+    workloadSelector:
+      namespace: helloworld
+      labels:
+        app: tsb-gateway-helloworld
+    http:
+      - name: helloworld
+        port: 80
+        hostname: "webinar0725-helloworld.cx.tetrate.info"
+        routing:
+          rules:
+            - route:
+                host: "helloworld/helloworld.helloworld.svc.cluster.local"
+                port: 5000
+- apiVersion: gateway.tsb.tetrate.io/v2
+  kind: Tier1Gateway
+  metadata:
+    name: helloworld-tier1
+    annotations:
+      tsb.tetrate.io/organization: demo-webinar0725-org
+      tsb.tetrate.io/tenant: demo-webinar0725-tenant  
+      tsb.tetrate.io/workspace: helloworld
+      tsb.tetrate.io/gatewayGroup: helloworld-gg
+  spec:
+    workloadSelector:
+      namespace: helloworld-tier1
+      labels:
+        app: tsb-gateway-helloworld-tier1
+    externalServers:
+    - name: helloworld
+      hostname: webinar0725-helloworld.cx.tetrate.info
+      port: 80
+      tls: {}
+      clusters:
+      - name: cp-app1-aws-webinar0725
+        weight: 100
+      - name: mp-cp-ingress-gcp-webinar0725
+        weight: 0
+---
