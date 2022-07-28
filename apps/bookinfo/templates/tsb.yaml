@@ -67,7 +67,6 @@ items:
           - route:
               host: "bookinfo/details.bookinfo.svc.cluster.local"
               port: 9080                   
----
 - apiVersion: gateway.tsb.tetrate.io/v2
   kind: Tier1Gateway
   metadata:
