@@ -81,7 +81,7 @@ items:
       tls: {}
       clusters:
       - name: cp-app1-aws-webinar0725
-        weight: 80
+        weight: 50
       - name: mp-cp-ingress-gcp-webinar0725
-        weight: 20
+        weight: 50
 ---
