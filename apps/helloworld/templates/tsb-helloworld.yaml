@@ -1,6 +1,14 @@
 apiVersion: v1
 kind: List
 items:
+# Create an ingress gateway deployment that will be the entry point to
+# the helloworld application
+- apiVersion: install.tetrate.io/v1alpha1
+  kind: IngressGateway
+  metadata:
+    namespace: helloworld
+    name: tsb-gateway-helloworld
+  spec: {}
 # Create the workspace and gateway group that capture the namespaces where
 # the helloworld application will run
 - apiVersion: tsb.tetrate.io/v2
@@ -73,7 +81,7 @@ items:
       tls: {}
       clusters:
       - name: cp-app1-aws-webinar0725
-        weight: 100
+        weight: 80
       - name: mp-cp-ingress-gcp-webinar0725
-        weight: 0
+        weight: 20
 ---
